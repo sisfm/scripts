@@ -1,11 +1,22 @@
 # Shopping Basket
 
 Python Script for Lana challenge which simulate a shopping cart
-	
+## Download
+```
+mkdir shopping_cart
+cd shopping_cart
+git clone https://github.com/sisfm/scripts.git .
+```
+## Build
+
+```
+docker build -t shopping_cart .
+```
+
 ## Execution
 
 ```
-python3 basket.py
+docker run -it --rm --name shopping_cart shopping_cart
 ```
 
 ## Main Menu
