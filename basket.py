@@ -106,7 +106,7 @@ def clearBasket():
 def userChoice():
     choice=int(input("Please enter user choice : "))
     if choice==1:
-        userDisplayBasket()
+        userDisplayStock()
         userLogin()
         userChoice()
     elif choice==2:
