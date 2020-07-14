@@ -11,7 +11,7 @@ def userLogin():
     print("1.Display Stock")
     print("2.Add Item to Basket")
     print("3.Remove Item From Basket")
-    print("4.Display Backet")
+    print("4.Display Basket")
     print("5.Get the discount and total Amount")
     print("6.Empty Basket")
     print("****************************************************************************************")
