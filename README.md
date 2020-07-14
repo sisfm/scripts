@@ -26,7 +26,7 @@ docker run -it --rm --name shopping_cart shopping_cart
 1.Display Stock
 2.Add Item to Basket
 3.Remove Item From Basket
-4.Display Backet
+4.Display Basket
 5.Get the discount and total Amount
 6.Empty Basket
 ****************************************************************************************
