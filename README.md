@@ -8,7 +8,7 @@ Python Script for Lana challenge which simulate a shopping cart
 python3 basket.py
 ```
 
-## Main Menu)
+## Main Menu
 
 ```
 *****************************************MENU*******************************************
