@@ -1,3 +1,4 @@
+import copy
 stock={"PEN":["Lana Pen",5],
        "TSHIRT":["Lana T-Shirt",20],
        "MUG":["Lana Coffee Mug",7.5]}
@@ -20,22 +21,23 @@ def userLogin():
 def userDisplayStock():
     global stock
     print("****************************************STOCK*******************************************")
-    print("****************************************************************************************")
     print("Id\t\tName\t\t\tPrice")
+    print("****************************************************************************************")
     for item in stock:
-        print(f"{item}\t\t{stock[item][0]}\t\t\t{stock[item][1]}")
+        print(f"{item}\t\t{stock[item][0]}\t\t{stock[item][1]}")
     print("\n")
 
 #Print Basket
-def userPrintBasket():
-    global basket
+def userPrintBasket(cart):
     print("****************************************BASKET******************************************")
     print("Id\t\tName\t\tQuantity\t\tPrice\t\tComment")
     print("****************************************************************************************")
-    for item in basket:
-        print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{basket[item][2]}")
+    for key,value in cart.items():
+        print(f"{key}\t\t", end='')
+        for item in value:
+            print(f"{item}\t\t", end='')
+        print("\n")
     print("****************************************************************************************")
-
                        
 def addItem():
     global basket
@@ -55,55 +57,45 @@ def addItem():
         print ("Item not in Stock. Select another item")
         userDisplayStock()
         addItem()
-        
+
 def removeItem():
-    userPrintBasket()
+    global basket
+    userPrintBasket(basket)
     removeId=str(input("Enter the id need to be deleted : "))
     if removeId in basket:
         del basket[removeId] #Remove item from Basket
     else:
         print ("Item not in Basket. Select another item")
-    userPrintBasket()
+    userPrintBasket(basket)
     login()
 
 def getTotal():
     total=0
-    print("**************************************CHECK OUT*****************************************")
-    print("Id\t\tName\t\tQuantity\t\tPrice\t\tComment")
-    print("****************************************************************************************")
-    for item in basket:
+    temp={}
+    temp=copy.deepcopy(basket)
+    discount=False
+    for item in temp:
         if item == "PEN": #Check if the Item is PEN to apply discount
-            if basket[item][1]%2 == 0:
-                totalPen=(basket[item][1]/2*stock[item][1]) #Apply 2x1 discount
-                print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{totalPen}\t\t*2x1 APPLIED")
-                total+=totalPen
-            else:
-                print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{basket[item][2]}")
-                total+=basket[item][2]
-
+            if temp[item][1]%2 == 0:
+                temp[item][2]=(temp[item][1]/2*stock[item][1]) #Apply 2x1 discount
+                temp[item].append("*2x1 discount")
         elif item == "TSHIRT": #Check if the Item is TSHIRT to apply discount
-            if basket[item][1] >= 3:
-                totalTshirt=(basket[item][1]*stock[item][1]*0.75) #Apply 25% discount
-                print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{totalTshirt}\t\t*25% DISCOUNT APPLIED")
-                total+=totalTshirt
-            else:
-                print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{basket[item][2]}")
-                total+=basket[item][2] 
-        else:
-                print(f"{item}\t\t{basket[item][0]}\t\t{basket[item][1]}\t\t{basket[item][2]}")
-                total+=basket[item][2]
+            if temp[item][1] >= 3:
+                temp[item][2]=(temp[item][1]*stock[item][1]*0.75) #Apply 25% discount
+                temp[item].append("*75% discount")
+        total+=temp[item][2] 
+    userPrintBasket(temp)
     print("****************************************************************************************")
     print(f"TOTAL: {total}")
     login()
     
 def clearBasket():
     global basket
-    basket={} #Clear Baket
+    basket={} #Clear Basket
     login()
 
-
-
 def userChoice():
+    global basket
     choice=int(input("Please enter user choice : "))
     if choice==1:
         userDisplayStock()
@@ -118,7 +110,7 @@ def userChoice():
         userLogin()
         userChoice()
     elif choice==4:
-        userPrintBasket()
+        userPrintBasket(basket)
         userLogin()
         userChoice()
     elif choice==5:
