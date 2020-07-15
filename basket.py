@@ -10,13 +10,11 @@ def addItem(basket,stock):
     enterId=str(input("Enter id to buy: "))
     if enterId in stock:
         if enterId in basket:
-            print ("Item already in Basket")
-            qnty=int(input("Enter Quantity to add: "))
+            qnty=int(input("Item already in Basket. Enter Quantity to add: "))
             basket[enterId][1]+=qnty #Record quantity
             basket[enterId][2]=(basket[enterId][1]*stock[enterId][1]) #Record Total Price
         else:
-            print ("item not in Basket")
-            qnty=int(input("Enter Quantity: "))
+            qnty=int(input("Item not in Basket. Enter Quantity: "))
             total=(qnty*stock[enterId][1])
             basket.update({enterId:[stock[enterId][0],qnty,total]})  #Add new item to basket
     else:
@@ -25,7 +23,6 @@ def addItem(basket,stock):
 
 def removeItem(basket):
     error=None
-    userPrintBasket(basket)
     removeId=str(input("Enter the id need to be deleted : "))
     if removeId in basket:
         del basket[removeId] #Remove item from Basket
@@ -34,7 +31,6 @@ def removeItem(basket):
     return basket,error
 
 def checkout(basket,stock):
-    total=0
     temp=copy.deepcopy(basket)
     for item in temp:
         if item == "PEN": #Check if the Item is PEN to apply discount
@@ -45,8 +41,7 @@ def checkout(basket,stock):
             if temp[item][1] >= 3:
                 temp[item][2]=(temp[item][1]*stock[item][1]*0.75) #Apply 25% discount
                 temp[item].append("*25% discount")
-        total+=temp[item][2] 
-    return temp,total
+    return temp
     
 def clearBasket(basket):
     basket={} #Clear Basket
@@ -76,8 +71,8 @@ def userChoice():
         userLogin()
         userChoice()
     elif choice==5:
-        temp,total=checkout(basket,stock)
-        userPrintCheckout(temp,total)
+        temp=checkout(basket,stock)
+        userPrintCheckout(temp)
         clearBasket(basket)
         userLogin()
         userChoice()
@@ -127,14 +122,16 @@ def userPrintBasket(cart):
         print("\n")
     print("****************************************************************************************")
 
-def userPrintCheckout(cart,total):
-    print("****************************************BASKET******************************************")
+def userPrintCheckout(cart):
+    total=0
+    print("***************************************CHECKOUT*****************************************")
     print("Id\t\tName\t\tQuantity\t\tPrice\t\tComment")
     print("****************************************************************************************")
     for key,value in cart.items():
         print(f"{key}\t\t", end='')
         for item in value:
             print(f"{item}\t\t", end='')
+        total+=cart[key][2]
         print("\n")
     print("****************************************************************************************")
     print(f"TOTAL: ${total}")
@@ -143,4 +140,5 @@ def userPrintCheckout(cart,total):
 def printError(error):
     print(error)
 
-login()
+if __name__ == '__main__':
+    login()
