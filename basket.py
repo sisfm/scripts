@@ -37,6 +37,9 @@ def checkout(basket,stock):
             if temp[item][1]%2 == 0:
                 temp[item][2]=(temp[item][1]/2*stock[item][1]) #Apply 2x1 discount
                 temp[item].append("*2x1 discount")
+            else:
+                temp[item][2]=((temp[item][1]-1)/2*stock[item][1]+stock[item][1]) #Apply 2x1 discount
+                temp[item].append("*2x1 discount")
         elif item == "TSHIRT": #Check if the Item is TSHIRT to apply discount
             if temp[item][1] >= 3:
                 temp[item][2]=(temp[item][1]*stock[item][1]*0.75) #Apply 25% discount
