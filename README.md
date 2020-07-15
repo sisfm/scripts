@@ -12,6 +12,10 @@ git clone https://github.com/sisfm/scripts.git .
 ```
 docker build -t shopping_cart .
 ```
+## Unit Test
+```
+python -m unittest -v #Part of Dockerfile
+```
 
 ## Execution
 
